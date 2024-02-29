@@ -1,12 +1,24 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+import parser
+
+parsing = Parser_postgresql()
 
 
-def url1(request):
-    return HttpResponse("Ответ 1")
+def show_all(request):
+    mebels = Mebel.objects.all().order_by('price')
+
+    # connection = parser.connect_to_db()
+    # parser.delete_all_data_from_table_db(connection=connection)
+    # mebels = parser.get_data_from_db(connection=connection)
+
+    # parser.close_connection_db(connection)
+    return render(request, "app_1/show_all.html", {'mebels': mebels})
 
 
-def url2(request):
+def run_scripts(request):
+    parsing.delete_all_data_from_table_db(parser.connect_to_db())
+    parsing.run()
     return HttpResponse("Ответ 2")
 
 
