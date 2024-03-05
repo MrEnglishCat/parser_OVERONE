@@ -5,7 +5,7 @@ import csv
 
 from abc import abstractmethod, ABC
 from bs4 import BeautifulSoup
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class DataClient(ABC):
@@ -130,11 +130,12 @@ class DataClient(ABC):
         if connection:
             cursor = connection.cursor()
             pattern_date_time_db = '%d-%m-%Y %H:%M %z'
+            dt = datetime.now(timezone.utc)
             for item in self.data:
                 link, price, description = item.values()
                 # не придумал пока что как исделать в одну строку VALUES (), (), ()
                 cursor.execute(
-                    f"INSERT INTO app_1_mebel (link, price, description) VALUES ('{link}', '{price}', '{description}')")
+                    f"INSERT INTO app_1_mebel (link, price, description, parse_datetime) VALUES ('{link}', '{price}', '{description}', '{dt}')")
             connection.commit()
         else:
             print(connection, 'ERROR CONNECTION TO DB!')

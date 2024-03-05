@@ -3,9 +3,10 @@ from django.db import models
 
 class Mebel(models.Model):
     link = models.TextField('Ссылка:')
-    price = models.DecimalField('Цена:', max_digits=10, decimal_places=4)
-    description = models.TextField('Описание:')
-    parse_datetime = models.DateTimeField(auto_now_add=True, blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=4, verbose_name='Цена с kufar.by')
+    description = models.TextField(verbose_name='Описание с kufar.by')
+    parse_datetime = models.DateTimeField(auto_now_add=True, blank=True, verbose_name='Дата добавления')
+
     def get_absolute_url(self):
         return self.link
 
