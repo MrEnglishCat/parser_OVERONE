@@ -13,7 +13,7 @@ def app_1_mainpage(request):
     return render(request, 'app_1/app_1_index.html')
 
 def go_to_mainpage(request):
-    return redirect('app_1_index')
+    return redirect('index')
 
 
 def show_all(request):
@@ -39,3 +39,13 @@ def erase_db(request):
     parsing.erase_db(parsing.connect_to_db())
     return HttpResponse("База данных очищена!")
 
+def page_not_found_app_1(request):
+    '''
+    сделано через re_path() работаеть только по пути '/app_1/' далее можно указать любой адрес
+    '''
+    return render(request, 'app_1/page_not_found.html')
+
+
+# def page_not_found(request, *args, **kwargs):
+
+#     return redirect('index')
