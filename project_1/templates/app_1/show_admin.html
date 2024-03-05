@@ -15,6 +15,7 @@
                 <head>
                   <th>ID</th>
                   <th>LINK</th>
+                  <th>DESCRIPTION</th>
                   <th>PRICE</th>
                   <th>DATE</th>
                 </head>
@@ -22,7 +23,8 @@
                     {% for item in mebels %}
                         <tr>
                             <td>{{item.id}}</td>
-                            <td><a href={{item.link}}>{{item.description}}</a></td>
+                            <td><a href={{item.link}}>Прямая ссылка</a></td>
+                            <td>{{item.description}}</td>
                             <td>{{item.price}}</td>
                             <td>{{item.parse_datetime}}</td>
 
