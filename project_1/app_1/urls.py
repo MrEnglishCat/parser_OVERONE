@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
 
     path('items', views.show_all),
+    path('items_admin', views.show_admin),
     path('items/<int:item_index>', views.show_index),
     path('get_data', views.run_scripts),
     path('app_1_main', views.app_1_mainpage, name='index'),

@@ -8,19 +8,24 @@
 {%endblock menu%}
 
 {%block content%}
-    {% if find_id %}
-        <h1>Вся наша мебель</h1>
+
+        <h1><b>Админка.</b> Вся наша мебель</h1>
         {% if mebels %}
             <table>
                 <head>
+                  <th>ID</th>
                   <th>LINK</th>
                   <th>PRICE</th>
+                  <th>DATE</th>
                 </head>
                 <tbody>
                     {% for item in mebels %}
                         <tr>
+                            <td>{{item.id}}</td>
                             <td><a href={{item.link}}>{{item.description}}</a></td>
                             <td>{{item.price}}</td>
+                            <td>{{item.parse_datetime}}</td>
+
             <!--                            Строки ниже для запросов в DB без использования Model           -->
             <!--                        <td>{{item.0}}</td>-->
             <!--                        <td>{{item.1}}</td>-->
@@ -34,7 +39,5 @@
         {% else %}
             <b>К сожалению мебели пока что нету!</b>
         {% endif %}
-    {% else %}
-        <h1>Указанного id: <span style="color: red;">{{item_index}}</span> в базе данных нету!</h1>
-    {% endif %}
+
 {%endblock content%}

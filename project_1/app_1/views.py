@@ -16,6 +16,11 @@ def app_1_mainpage(request):
 def go_to_mainpage(request):
     return redirect('index')
 
+def show_admin(request):
+    mebels = Mebel.objects.all().order_by('-parse_datetime')
+
+    return render(request, 'app_1/show_admin.html', {'mebels':mebels})
+
 
 def show_all(request):
     mebels = Mebel.objects.all().order_by('id')
