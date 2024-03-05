@@ -17,9 +17,8 @@ def go_to_mainpage(request):
 
 
 def show_all(request):
-    # mebels = Mebel.objects.all().order_by('price')
     mebels = Mebel.objects.all().order_by('id')
-
+    # комментарии ниже это для добавления в ДБ без использования модели
     # connection = parser.connect_to_db()
     # parser.delete_all_data_from_table_db(connection=connection)
     # mebels = parser.get_data_from_db(connection=connection)
@@ -27,6 +26,10 @@ def show_all(request):
     return render(request, f"app_1/show_data.html", {'find_id':True, 'mebels': mebels})
 
 def show_index(request, item_index):
+    '''
+    используется один и тот же шаблон для show_all() & shot_index() не знаю на сколько так используется
+    но очень хотелось их разнести, что бы не городить многоэтажные ифы в шаблоне =)
+    '''
     try:
         print('====')
         mebel = Mebel.objects.get(id=item_index)
