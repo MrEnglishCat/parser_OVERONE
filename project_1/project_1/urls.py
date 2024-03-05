@@ -23,4 +23,4 @@ urlpatterns = [
 ]
 
 
-# handler500 = 'app_1.views.page_not_found'
+handler404 = 'app_1.views.page_not_found'

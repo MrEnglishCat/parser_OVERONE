@@ -46,6 +46,5 @@ def page_not_found_app_1(request):
     return render(request, 'app_1/page_not_found.html')
 
 
-# def page_not_found(request, *args, **kwargs):
-
-#     return redirect('index')
+def page_not_found(request, *args, **kwargs):
+    return redirect('index')
