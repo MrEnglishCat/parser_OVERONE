@@ -33,9 +33,7 @@ def show_index(request, item_index):
     но очень хотелось их разнести, что бы не городить многоэтажные ифы в шаблоне =)
     '''
     try:
-        print('====')
         mebel = Mebel.objects.get(id=item_index)
-        print('===', mebel)
     except:
         return render(request, 'app_1/show_data.html', {'find_id': False, 'item_index': item_index})
     else:
