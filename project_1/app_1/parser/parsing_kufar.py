@@ -70,8 +70,8 @@ class Parser_sqlite(DataClient):
 
 
 
-mebel = Parser_postgresql()
-mebel.run()
+# mebel = Parser_postgresql()
+# mebel.run()
 
 
 

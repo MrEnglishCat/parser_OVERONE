@@ -13,6 +13,12 @@ class Mebel(models.Model):
     def get_str(self):
         return f"{self.price}"
 
+    # def __bool__(self):
+    #     if any((self.link, self.price, self.description, self.parse_datetime)):
+    #         return True
+    #     else:
+    #         return False
+
     def __str__(self):
         return f"{self.price} | {self.description}"
 

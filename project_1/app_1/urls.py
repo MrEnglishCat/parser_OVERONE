@@ -3,8 +3,10 @@ from . import views
 
 
 urlpatterns = [
-    path('1', views.show_all),
-    path('2', views.run_scripts),
+
+    path('items', views.show_all),
+    path('items/<int:item_index>', views.show_index),
+    path('get_data', views.run_scripts),
     path('app_1_main', views.app_1_mainpage, name='index'),
     path('erase_db', views.erase_db),
     path('', views.go_to_mainpage),

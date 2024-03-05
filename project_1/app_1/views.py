@@ -18,26 +18,43 @@ def go_to_mainpage(request):
 
 def show_all(request):
     # mebels = Mebel.objects.all().order_by('price')
-    mebels = Mebel.objects.all()
+    mebels = Mebel.objects.all().order_by('id')
 
     # connection = parser.connect_to_db()
     # parser.delete_all_data_from_table_db(connection=connection)
     # mebels = parser.get_data_from_db(connection=connection)
     # parser.close_connection_db(connection)
-    return render(request, f"app_1/show_all.html", {'mebels': mebels})
+    return render(request, f"app_1/show_data.html", {'find_id':True, 'mebels': mebels})
+
+def show_index(request, item_index):
+    try:
+        print('====')
+        mebel = Mebel.objects.get(id=item_index)
+        print('===', mebel)
+    except:
+        return render(request, 'app_1/show_data.html', {'find_id': False, 'item_index':item_index})
+    else:
+        return render(request, 'app_1/show_data.html', {'find_id':True, 'mebels':(mebel, )})
+
+
 
 
 def run_scripts(request):
     try:
         parsing.run()
-        return HttpResponse("Данные получены!")
+        message = "Данные получены!"
+        return render(request, 'app_1/after_processing.html', {'message':message})
     except:
         return HttpResponse("Произошла ошибка при получении данных!")
 
 
 def erase_db(request):
-    parsing.erase_db(parsing.connect_to_db())
-    return HttpResponse("База данных очищена!")
+    try:
+        parsing.erase_db(parsing.connect_to_db())
+        message = "Данные очищены!"
+        return render(request, 'app_1/after_processing.html', {'message':message})
+    except:
+        return HttpResponse("Произошла ошибка при очищении базы данных!")
 
 def page_not_found_app_1(request):
     '''
