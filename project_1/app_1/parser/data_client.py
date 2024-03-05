@@ -9,11 +9,11 @@ from datetime import datetime, timezone
 
 
 class DataClient(ABC):
-    data = None
     urls = 'https://www.kufar.by/l/mebel'
     _fieldnames = ('LINK', 'PRICE', 'DESCRIPTION')
     # _pattern = "%d-%m-%Y %H.%M"
     _pattern_date = "%d-%m-%Y"
+    TABLE_NAME = "app_1_mebel"
 
     @abstractmethod
     def connect_to_db(self):
@@ -135,15 +135,17 @@ class DataClient(ABC):
                 link, price, description = item.values()
                 # не придумал пока что как исделать в одну строку VALUES (), (), ()
                 cursor.execute(
-                    f"INSERT INTO app_1_mebel (link, price, description, parse_datetime) VALUES ('{link}', '{price}', '{description}', '{dt}')")
+                    f"INSERT INTO {self.TABLE_NAME} (link, price, description, parse_datetime) VALUES ('{link}', '{price}', '{description}', '{dt}')")
             connection.commit()
         else:
             print(connection, 'ERROR CONNECTION TO DB!')
 
-    def delete_all_data_from_table_db(self, connection):
+
+    def erase_db(self, connection):
         if connection:
             cursor = connection.cursor()
-            cursor.execute(f"DELETE FROM app_1_mebel WHERE id >= 0")
+            cursor.execute(f"DELETE FROM {self.TABLE_NAME}")
+            connection.commit()
 
     def clear_self_data(self):
         self.data.clear()
