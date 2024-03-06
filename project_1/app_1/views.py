@@ -2,9 +2,10 @@ import os
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-
 from .models import Mebel
 from .parser.parsing_kufar import Parser_postgresql
+from .forms import UpdateDataForm
+
 
 parsing = Parser_postgresql()
 
@@ -18,9 +19,14 @@ def go_to_mainpage(request):
 
 def show_admin(request):
     mebels = Mebel.objects.all().order_by('-parse_datetime')
+    form = UpdateDataForm()
+    return render(request, 'app_1/show_admin.html', {'mebels':mebels, 'forms':form})
 
-    return render(request, 'app_1/show_admin.html', {'mebels':mebels})
 
+def update_item(request):
+    mebels = Mebel.objects.all().order_by('-parse_datetime')
+    form = UpdateDataForm()
+    return redirect('index')
 
 def show_all(request):
     mebels = Mebel.objects.all().order_by('id')

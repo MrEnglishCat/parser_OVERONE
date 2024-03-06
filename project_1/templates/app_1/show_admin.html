@@ -28,18 +28,24 @@
                                 <td class="align-middle"><b>{{item.id}}</b></td>
                                 <td class="align-middle"><a href={{item.link}}>Прямая ссылка</a></td>
                                 <td class="align-middle">{{item.parse_datetime}}</td>
+<!--                                <td class="align-middle">-->
+<!--                                    <input id="number" type="text" value={{item.price}} />-->
+<!--                                </td>-->
+<!--                                <td class="align-middle">-->
+<!--                                <div class="form-group">-->
+<!--                                      <label for="exampleFormControlTextarea1"></label>-->
+<!--                                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" cols="70">{{item.description}}</textarea>-->
+<!--                                  </div>-->
+<!--                                </td>-->
+                                <form action="{% url 'update_item'%}" method="post">
+                                    {% csrf_token %}
+                                    <td class="align-middle">{{forms.price}}</td>
+                                    <td class="align-middle">{{forms.description}}</td>
                                 <td class="align-middle">
-                                    <input id="number" type="text" value={{item.price}} />
-                                </td>
-                                <td class="align-middle">
-                                <div class="form-group">
-                                      <label for="exampleFormControlTextarea1"></label>
-                                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" cols="70">{{item.description}}</textarea>
-                                  </div>
-                                </td>
-                                <td class="align-middle">
-                                    <p><button type="button" class="btn btn-success" style="width:100%;">Save</button></p>
-                                    <p><button type="button" class="btn btn-danger"  style="width:100%;">Delete</button></p>
+                                        <p><button type="submit" class="btn btn-success" style="width:100%;">Save</button></p>
+
+                                </form>
+                                    <p><button type="submit" class="btn btn-danger"  style="width:100%;">Delete</button></p>
                                 </td>
 
                 <!--                            Строки ниже для запросов в DB без использования Model           -->
