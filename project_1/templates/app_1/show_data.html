@@ -12,16 +12,16 @@
     {% if find_id %}
         <h1>Вся наша мебель</h1>
         {% if mebels %}
-            <table>
-                <head>
-                  <th>LINK</th>
-                  <th>PRICE</th>
-                </head>
+            <table class="table table-striped">
+                <thead  class="table-dark">
+                  <th class="align-middle">LINK</th>
+                  <th class="align-middle">PRICE</th>
+                </thead>
                 <tbody>
                     {% for item in mebels %}
                         <tr>
-                            <td><a href={{item.link}}>{{item.description}}</a></td>
-                            <td>{{item.price}}</td>
+                            <td class="align-middle"><a href={{item.link}}>{{item.description}}</a></td>
+                            <td class="align-middle">{{item.price}}</td>
             <!--                            Строки ниже для запросов в DB без использования Model           -->
             <!--                        <td>{{item.0}}</td>-->
             <!--                        <td>{{item.1}}</td>-->
