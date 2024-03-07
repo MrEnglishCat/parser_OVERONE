@@ -20,13 +20,30 @@ def go_to_mainpage(request):
 def show_admin(request):
     mebels = Mebel.objects.all().order_by('-parse_datetime')
     form = UpdateDataForm()
+
     return render(request, 'app_1/show_admin.html', {'mebels':mebels, 'forms':form})
 
 
-def update_item(request):
-    mebels = Mebel.objects.all().order_by('-parse_datetime')
-    form = UpdateDataForm()
-    return redirect('index')
+def update_item(request, item_index):
+    new_price = request.POST.get('price', '')
+    new_description = request.POST.get('description', '')
+
+    mebels = Mebel.objects.filter(pk=item_index).update(
+        price=new_price,
+        description=new_description
+    )
+
+    return redirect('admin_page')
+
+def delete_item(request, item_index):
+    if request.method == "POST":
+        print(request.POST)
+        price = request.POST.get('price', '')
+        description = request.POST.get('description', '')
+
+        mebel = Mebel.objects.get(price).get(description)
+        print(mebel)
+
 
 def show_all(request):
     mebels = Mebel.objects.all().order_by('id')
