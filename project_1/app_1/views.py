@@ -25,7 +25,7 @@ def show_admin(request):
 
 
 def update_item(request, item_index):
-    new_price = request.POST.get('price', '')
+    new_price = float(request.POST.get('price', ''))
     new_description = request.POST.get('description', '')
 
     mebels = Mebel.objects.filter(pk=item_index).update(
