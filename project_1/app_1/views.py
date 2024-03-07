@@ -37,13 +37,9 @@ def update_item(request, item_index):
 
 def delete_item(request, item_index):
     if request.method == "POST":
-        print(request.POST)
-        price = request.POST.get('price', '')
-        description = request.POST.get('description', '')
+        mebel = Mebel.objects.filter(pk=item_index).delete()
 
-        mebel = Mebel.objects.get(price).get(description)
-        print(mebel)
-
+    return redirect('admin_page')
 
 def show_all(request):
     mebels = Mebel.objects.all().order_by('id')
