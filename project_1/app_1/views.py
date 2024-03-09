@@ -43,7 +43,6 @@ def update_item(request, item_index):
             description=new_description,
             update_datetime = new_update_datetime
         )
-        pprint(request.META)
     if 'app_1/items/' in request.META.get('HTTP_REFERER', ''):
         return redirect(f'/app_1/items/{item_index}')
     else:
