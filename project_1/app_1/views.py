@@ -52,7 +52,10 @@ def delete_item(request, item_index):
     if request.method == "POST" and request.user.is_superuser:
         mebel = Mebel.objects.filter(pk=item_index).delete()
 
-    return redirect('admin_page')
+    if 'app_1/items/' in request.META.get('HTTP_REFERER', ''):
+        return redirect('items')
+    else:
+        return redirect('admin_page')
 
 
 def show_all(request):
