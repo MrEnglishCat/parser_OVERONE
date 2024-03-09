@@ -12,9 +12,8 @@
 
         {% if mebels %}
             <h1>Вся наша мебель</h1>
-            <div align="center">
                 <nav aria-label="Page navigation example">
-                    <ul class="pagination">
+                    <ul class="pagination justify-content-center">
 
 
                                 {% if queryset.has_previous %}
@@ -33,7 +32,6 @@
 
                     </ul>
                 </nav>
-            </div>
             <table class="table table-striped">
                 <thead  class="table-dark">
                     <th class="align-middle">ID</th>
@@ -57,28 +55,25 @@
                 </tbody>
 
             </table>
-            <div align="center">
                 <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-
-
+                    <ul class="pagination justify-content-center">
                                 {% if queryset.has_previous %}
                                     <li class="page-item"><a class="page-link" href="?page=1">&laquo; first</a></li>
-                                    <li class="page-item"><a class="page-link" href="?page={{ queryset.previous_page_number }}">previous</a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ queryset.previous_page_number }}">{{ queryset.previous_page_number }}</a></li>
+                                {% endif %}
+                                {% if queryset.has_next %}
+                                <span class="page-item">...
+<!--                                    Page {{ queryset.number }} of {{ queryset.paginator.num_pages }}.-->
+                                </span>
                                 {% endif %}
 
-                                <span class="current">
-                                    Page {{ queryset.number }} of {{ queryset.paginator.num_pages }}.
-                                </span>
-
                                 {% if queryset.has_next %}
-                                    <li class="page-item"><a class="page-link" href="?page={{ queryset.next_page_number }}">next</a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ queryset.next_page_number }}">{{ queryset.next_page_number }}</a></li>
                                     <li class="page-item"><a class="page-link" href="?page={{ queryset.paginator.num_pages }}">last &raquo;</a></li>
                                 {% endif %}
 
                     </ul>
                 </nav>
-            </div>
         {% else %}
             <b>К сожалению мебели пока что нету!</b>
         {% endif %}
