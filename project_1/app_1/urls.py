@@ -4,7 +4,7 @@ from . import views
 urlpatterns = [
     path('items', views.show_all),
     path('items_admin', views.show_admin, name='admin_page'),
-    path('items/<int:item_index>', views.show_index),
+    path('items/<int:item_index>', views.show_index, name='show_item'),
     path('get_data', views.run_scripts),
     path('app_1_main', views.app_1_mainpage, name='index'),
     path('erase_db', views.erase_db),

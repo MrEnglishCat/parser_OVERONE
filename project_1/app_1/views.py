@@ -1,5 +1,6 @@
 import os
 from datetime import datetime, timezone
+from pprint import pprint
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
@@ -33,7 +34,7 @@ def show_admin(request):
 
 
 def update_item(request, item_index):
-    if request.method == "POST" and request.user.is_superuser:
+    if request.method == "POST" and request.user.is_superuser :
         new_price = float(request.POST.get('price', ''))
         new_description = request.POST.get('description', '')
         new_update_datetime = datetime.now(timezone.utc)
@@ -42,9 +43,11 @@ def update_item(request, item_index):
             description=new_description,
             update_datetime = new_update_datetime
         )
-
-    return redirect('admin_page')
-
+        pprint(request.META)
+    if 'app_1/items' in request.META.get('HTTP_REFERER', ''):
+        return redirect(f'/app_1/items/{item_index}')
+    else:
+        return redirect('admin_page')
 
 def delete_item(request, item_index):
     if request.method == "POST" and request.user.is_superuser:
@@ -72,10 +75,11 @@ def show_index(request, item_index):
     '''
     try:
         mebel = Mebel.objects.get(id=item_index)
+        form = UpdateDataForm()
     except:
-        return render(request, 'app_1/show_data.html', {'find_id': False, 'item_index': item_index})
+        return render(request, 'app_1/show_item.html', {'find_id': False, 'item_index': item_index})
     else:
-        return render(request, 'app_1/show_data.html', {'find_id': True, 'mebels': (mebel,)})
+        return render(request, 'app_1/show_item.html', {'find_id': True, 'mebels': (mebel,), 'form':form})
 
 
 def run_scripts(request):
