@@ -131,7 +131,7 @@ def user_settings(request):
     return render(request, 'app_1/settings.html', {'form':form})
 
 
-class SighnUp(CreateView):
+class SignUp(CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('login')
     template_name = 'registration/registration.html'
