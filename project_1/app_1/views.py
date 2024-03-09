@@ -106,8 +106,9 @@ def page_not_found(request, *args, **kwargs):
     return redirect('index')
 
 def login(request):
-    return render(request, 'registration/login.html')
-
+    # print(request.user)
+    # return render(request, 'registration/login.html')
+    ...
 def logout(request):
     lg_out(request)
     return redirect('login')

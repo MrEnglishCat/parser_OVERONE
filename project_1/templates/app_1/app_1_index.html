@@ -5,11 +5,18 @@
     <p>
         <a href="items">Просмотр всех данных из таблицы БД</a>
     </p>
-    <p>
-        <a href="get_data">Парсинг одной ссылки с kufar.by</a>
-    </p>
-    <p>
-        <a href="erase_db">Очистить таблицу парсинга в БД</a>
-    </p>
+    {% if user.is_authenticated %}
+        <p>
+            <a href="get_data">Парсинг одной ссылки с kufar.by</a>
+        </p>
+    {% endif %}
+    {% if user.is_authenticated and user.is_superuser %}
+        <p>
+            <a href="items_admin">Редактирование данных в БД</a>
+        </p>
+        <p>
+            <a href="erase_db">Очистить таблицу парсинга в БД</a>
+        </p>
+    {% endif %}
 
 {%endblock menu%}
