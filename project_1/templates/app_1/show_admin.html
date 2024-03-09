@@ -17,7 +17,8 @@
                     <thead class="table-dark">
                       <th>ID</th>
                       <th>LINK</th>
-                      <th>DATE</th>
+                      <th>DATE ADDED</th>
+                      <th>UPDATE DATE</th>
                       <th>PRICE</th>
                       <th>DESCRIPTION</th>
                       <th>UPDATE</th>
@@ -29,6 +30,13 @@
                                 <td class="align-middle"><b>{{item.id}}</b></td>
                                 <td class="align-middle"><a href={{item.link}}>Прямая ссылка</a></td>
                                 <td class="align-middle">{{item.parse_datetime}}</td>
+                                <td class="align-middle">
+                                    {% if item.update_datetime is not None %}
+                                        {{item.update_datetime}}
+                                    {% else %}
+                                        Запись не редактировалась
+                                    {% endif %}
+                                </td>
                                 <td class="align-middle">
                                     {{item.price}}
                                 </td>
