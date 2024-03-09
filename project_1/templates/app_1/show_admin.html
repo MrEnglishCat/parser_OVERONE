@@ -9,7 +9,7 @@
 {%endblock menu%}
 
 {%block content%}
-
+    {% if user.is_authenticated and user.is_superuser %}
         <h1><b>Админка.</b> Вся наша мебель</h1>
         {% if mebels %}
 
@@ -31,22 +31,16 @@
                                 <td class="align-middle">{{item.parse_datetime}}</td>
                                 <td class="align-middle">
                                     {{item.price}}
-<!--                                    <input id="number" type="text" value={{item.price}} />-->
                                 </td>
                                 <td class="align-middle">
                                     {{item.description}}
-<!--                                    <div class="form-group">-->
-<!--                                      <label for="exampleFormControlTextarea1"></label>-->
-<!--                                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" cols="70">{{item.description}}</textarea>-->
-<!--                                    </div>-->
                                 </td>
                                 <td class="align-middle">
                                     <form action="{% url 'update_item' item.id%}" method="post">
-                                        {% csrf_token %}
-                                        {{forms.as_p}}
-                                        <p><button type="submit" class="btn btn-success" style="width:100%;">Save</button></p>
+                                            {% csrf_token %}
+                                            {{forms.as_p}}
+                                            <p><button type="submit" class="btn btn-success" style="width:100%;">Save</button></p>
                                      </form>
-
                                 </td>
                                 <td class="align-middle">
                                     <form action="{% url 'delete_item' item.id %}" method="post">
@@ -54,10 +48,6 @@
                                         <p><button type="submit" class="btn btn-danger"  style="width:100%;">Delete</button></p>
                                     </form>
                                 </td>
-
-
-
-
 
                 <!--                            Строки ниже для запросов в DB без использования Model           -->
                 <!--                        <td>{{item.0}}</td>-->
@@ -73,5 +63,10 @@
         {% else %}
             <b>К сожалению мебели пока что нету!</b>
         {% endif %}
+    {% else %}
+        <p>
+            <strong>Страница доступна только авторизованным Администраторам!</strong>
+        </p>
+    {% endif %}
 
 {%endblock content%}

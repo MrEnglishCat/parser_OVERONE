@@ -12,11 +12,51 @@
 
     </head>
     <body>
+        <p align="right">
+            {% if user.is_authenticated %}
+<!--                | User: {{user.username}} | email: {{user.email}} |<br>| <a href={% url 'logout' %}>Выход</a> |-->
+<!--                | User: {{user.username}} |-->
+                <table align="right">
+                    <tbody>
+<!--                        <a href={% url 'logout' %} role="button">Выход</a> |-->
+                        <tr>
+                            <td>|  User: {{user.username}}  |</td>
+                            <td>
+                                <form action={% url 'log_out' %} method="POST">
+                                    {% csrf_token %}
+<!--                                    <a href={% url 'logout' %} role="button">Выход</a> |-->
+                                    <button type="submit" class="btn btn-link" style="align:right">Выход</button> |
+                                </form>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            {% else %}
+                <table align="right">
+                    <tbody>
+<!--                        <a href={% url 'logout' %} role="button">Выход</a> |-->
+                        <tr>
+                            <td>| <a href={% url 'login' %}>Вход</a> |</td>
+                            <td>
+                                <a href={% url 'registration' %}>Регистрация</a> |
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+
+            {% endif %}
+        </p>
         <div align="center">
             {%block menu%} {%endblock menu%}
             {%block content%} {%endblock content%}
             {% block footer %}
-                Самодельная админка доступна по адресу: http://127.0.0.1:8000/app_1/items_admin
+            <hr>
+            <p>Самодельная админка доступна(только для superuser) по адресу: http://127.0.0.1:8000/app_1/items_admin</p>
+            <p>Доступ к отдельным элементам БД "Мебель". Число "9874" - ID из вашей БД: http://127.0.0.1:8000/app_1/items/9874</p>
             {% endblock footer %}
 
         </div>
