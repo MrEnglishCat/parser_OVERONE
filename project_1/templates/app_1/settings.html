@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+<div>
+{%block menu %}
+    <p>
+        <br><br><a href="/app_1/">Главная страница</a>
+    </p>
+    {% if user.is_authenticated %}
+        <h1 align="center">Настройки | {{user.username}}</h1>
+        <div align="center">
+            <form method="POST" action={% url 'user_settings'%}>
+                {% csrf_token %}
+
+                    <p><b>{{form.first_name.label_tag}}</b> {{form.first_name}}</p>
+                    <p><b>{{form.last_name.label_tag}}</b> {{form.last_name}}</p>
+                    <p><b>{{form.email.label_tag}}</b> {{form.email}}</p>
+                <p><button type="submit" class="btn btn-success">Сохранить</button></p>
+            </form>
+        </div>
+    {% else %}
+        <p>Страница доступна только авторизованным пользователям!</p>
+    {% endif %}
+<!--    {% if mebels %}-->
+<!--    {% else %}-->
+<!--    {% endif %}-->
+
+{% endblock menu %}
+</div>

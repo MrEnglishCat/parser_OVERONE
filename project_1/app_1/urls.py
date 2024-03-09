@@ -13,6 +13,7 @@ urlpatterns = [
     path('login', views.login, name='login'),
     path('logout', views.logout, name='log_out'),
     # path('logout', views.Logout.as_view(), name='logout'),
+    path('settings', views.user_settings, name ='user_settings'),
     path('registration', views.SighnUp.as_view(), name='registration'),
     path('', views.go_to_mainpage),
     re_path(r'.*', views.page_not_found_app_1)

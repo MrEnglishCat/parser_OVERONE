@@ -20,9 +20,9 @@
                     <tbody>
 <!--                        <a href={% url 'logout' %} role="button">Выход</a> |-->
                         <tr>
-                            <td>|  User: {{user.username}}  |</td>
+                            <td>|  <a href="{% url 'user_settings' %}">User: {{user.username}}</a>  |</td>
                             <td>
-                                <form action={% url 'log_out' %} method="POST">
+                                <form action="{% url 'log_out' %}" method="POST">
                                     {% csrf_token %}
 <!--                                    <a href={% url 'logout' %} role="button">Выход</a> |-->
                                     <button type="submit" class="btn btn-link" style="align:right">Выход</button> |
@@ -38,9 +38,9 @@
                     <tbody>
 <!--                        <a href={% url 'logout' %} role="button">Выход</a> |-->
                         <tr>
-                            <td>| <a href={% url 'login' %}>Вход</a> |</td>
+                            <td>| <a href="{% url 'login' %}">Вход</a> |</td>
                             <td>
-                                <a href={% url 'registration' %}>Регистрация</a> |
+                                <a href="{% url 'registration' %}">Регистрация</a> |
                             </td>
                         </tr>
 
@@ -55,7 +55,7 @@
             {%block content%} {%endblock content%}
             {% block footer %}
             <hr>
-            <p>Самодельная админка доступна(только для superuser) по адресу: http://127.0.0.1:8000/app_1/items_admin</p>
+            <p>Самодельная админка доступна(<b>только для superuser</b>) по адресу: http://127.0.0.1:8000/app_1/items_admin</p>
             <p>Доступ к отдельным элементам БД "Мебель". Число "9874" - ID из вашей БД: http://127.0.0.1:8000/app_1/items/9874</p>
             {% endblock footer %}
 

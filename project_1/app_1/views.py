@@ -5,8 +5,9 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Mebel
 from .parser.parsing_kufar import Parser_postgresql
-from .forms import UpdateDataForm
-from django.contrib.auth.forms import UserCreationForm
+from .forms import UpdateDataForm, UserSettingsForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.models import User
 from django.contrib.auth import logout as lg_out
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
@@ -81,7 +82,7 @@ def run_scripts(request):
         parsing.run()
         message = "Данные получены!"
         return render(request, 'app_1/after_processing.html', {'message': message})
-    except:
+    except Exception as err:
         return HttpResponse("Произошла ошибка при получении данных!")
 
 
@@ -110,6 +111,24 @@ def login(request):
 def logout(request):
     lg_out(request)
     return redirect('login')
+
+def user_settings(request):
+    form = UserSettingsForm()
+    if request.method == "GET":
+        pass
+    elif request.method == "POST":
+        new_first_name = request.POST.get('first_name', '')
+        new_last_name = request.POST.get('last_name', '')
+        new_email = request.POST.get('email', '')
+        user_id = request.user.id
+        user = User.objects.filter(pk=user_id).update(
+            first_name=new_first_name,
+            last_name=new_last_name,
+            email=new_email
+        )
+        # user = User.objects.filter(pk=user_id)
+
+    return render(request, 'app_1/settings.html', {'form':form})
 
 
 class SighnUp(CreateView):
