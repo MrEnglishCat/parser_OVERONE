@@ -6,8 +6,3 @@ class UpdateDataForm(forms.Form):
     # price = forms.IntegerField(min_value=0, label='Цена')
     price = forms.FloatField(min_value=0, label='Цена')
 
-class UserSettingsForm(UserChangeForm):
-    first_name = forms.CharField(label='Имя', max_length=30)
-    last_name = forms.CharField(label='Фамилия', max_length=30)
-    email = forms.CharField(label='e-mail', max_length=75)
-

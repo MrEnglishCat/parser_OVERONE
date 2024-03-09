@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Mebel
 from .parser.parsing_kufar import Parser_postgresql
-from .forms import UpdateDataForm, UserSettingsForm
+from .forms import UpdateDataForm
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from django.contrib.auth import logout as lg_out
@@ -113,7 +113,7 @@ def logout(request):
     return redirect('login')
 
 def user_settings(request):
-    form = UserSettingsForm()
+    form = UserChangeForm()
     if request.method == "GET":
         pass
     elif request.method == "POST":
