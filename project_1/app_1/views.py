@@ -33,20 +33,21 @@ def show_admin(request):
 
 
 def update_item(request, item_index):
-    new_price = float(request.POST.get('price', ''))
-    new_description = request.POST.get('description', '')
-    new_update_datetime = datetime.now(timezone.utc)
-    mebels = Mebel.objects.filter(pk=item_index).update(
-        price=new_price,
-        description=new_description,
-        update_datetime = new_update_datetime
-    )
+    if request.method == "POST" and request.user.is_superuser:
+        new_price = float(request.POST.get('price', ''))
+        new_description = request.POST.get('description', '')
+        new_update_datetime = datetime.now(timezone.utc)
+        mebels = Mebel.objects.filter(pk=item_index).update(
+            price=new_price,
+            description=new_description,
+            update_datetime = new_update_datetime
+        )
 
     return redirect('admin_page')
 
 
 def delete_item(request, item_index):
-    if request.method == "POST":
+    if request.method == "POST" and request.user.is_superuser:
         mebel = Mebel.objects.filter(pk=item_index).delete()
 
     return redirect('admin_page')
@@ -87,12 +88,15 @@ def run_scripts(request):
 
 
 def erase_db(request):
-    try:
-        parsing.erase_db(parsing.connect_to_db())
-        message = "Данные очищены!"
-        return render(request, 'app_1/after_processing.html', {'message': message})
-    except:
-        return HttpResponse("Произошла ошибка при очищении базы данных!")
+    if request.method == "POST" and request.user.is_superuser:
+        try:
+            parsing.erase_db(parsing.connect_to_db())
+            message = "Данные очищены!"
+            return render(request, 'app_1/after_processing.html', {'message': message})
+        except:
+            return HttpResponse("Произошла ошибка при очищении базы данных!")
+    else:
+        return  HttpResponse("Пройдите авторизацию перед удалением всех записей из БД!")
 
 
 def page_not_found_app_1(request):
