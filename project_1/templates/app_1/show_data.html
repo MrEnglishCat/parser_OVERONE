@@ -11,7 +11,30 @@
 {%block content%}
     {% if find_id %}
         <h1>Вся наша мебель</h1>
-        {% if mebels %}
+<!--        {% if mebels %}-->
+        {% if queryset %}
+            <div align="center">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+
+
+                                {% if queryset.has_previous %}
+                                    <li class="page-item"><a class="page-link" href="?page=1">&laquo; first</a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ queryset.previous_page_number }}">previous</a></li>
+                                {% endif %}
+
+                                <span class="current">
+                                    Page {{ queryset.number }} of {{ queryset.paginator.num_pages }}.
+                                </span>
+
+                                {% if queryset.has_next %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ queryset.next_page_number }}">next</a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ queryset.paginator.num_pages }}">last &raquo;</a></li>
+                                {% endif %}
+
+                    </ul>
+                </nav>
+            </div>
             <table class="table table-striped">
                 <thead  class="table-dark">
                     <th class="align-middle">ID</th>
@@ -20,7 +43,7 @@
 
                 </thead>
                 <tbody>
-                    {% for item in mebels %}
+                    {% for item in queryset %}
                         <tr>
                             <td class="align-middle"><a href={% url 'show_item' item.id %}>{{item.id}}</a></td>
                             <td class="align-middle"><a href={{item.link}}>{{item.description}}</a></td>
@@ -31,14 +54,37 @@
             <!--                        <td>{{item.2}}</td>-->
             <!--                        <td>{{item.3}}</td>-->
                         </tr>
-                    {%endfor%}
+                    {% endfor %}
                 </tbody>
 
             </table>
+            <div align="center">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+
+
+                                {% if queryset.has_previous %}
+                                    <li class="page-item"><a class="page-link" href="?page=1">&laquo; first</a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ queryset.previous_page_number }}">previous</a></li>
+                                {% endif %}
+
+                                <span class="current">
+                                    Page {{ queryset.number }} of {{ queryset.paginator.num_pages }}.
+                                </span>
+
+                                {% if queryset.has_next %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ queryset.next_page_number }}">next</a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ queryset.paginator.num_pages }}">last &raquo;</a></li>
+                                {% endif %}
+
+                    </ul>
+                </nav>
+            </div>
         {% else %}
             <b>К сожалению мебели пока что нету!</b>
         {% endif %}
     {% else %}
         <h1>Указанного id: <span style="color: red;">{{item_index}}</span> в базе данных нету!</h1>
     {% endif %}
+{%endif%}
 {%endblock content%}
