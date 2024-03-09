@@ -76,7 +76,6 @@ def show_all(request):
         request,
         f"app_1/show_data.html",
         {
-            'find_id': True,
             'mebels': mebels,
             'queryset': page_obj
         }
@@ -107,7 +106,7 @@ def run_scripts(request):
 
 
 def erase_db(request):
-    if request.method == "POST" and request.user.is_superuser:
+    if request.method == "GET" and request.user.is_superuser:
         try:
             parsing.erase_db(parsing.connect_to_db())
             message = "Данные очищены!"

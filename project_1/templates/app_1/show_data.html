@@ -9,10 +9,9 @@
 {%endblock menu%}
 
 {%block content%}
-    {% if find_id %}
-        <h1>Вся наша мебель</h1>
-<!--        {% if mebels %}-->
-        {% if queryset %}
+
+        {% if mebels %}
+            <h1>Вся наша мебель</h1>
             <div align="center">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
@@ -83,8 +82,5 @@
         {% else %}
             <b>К сожалению мебели пока что нету!</b>
         {% endif %}
-    {% else %}
-        <h1>Указанного id: <span style="color: red;">{{item_index}}</span> в базе данных нету!</h1>
-    {% endif %}
-{%endif%}
+
 {%endblock content%}
