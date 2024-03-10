@@ -37,7 +37,7 @@ def update_item(request, item_index):
         new_price = float(request.POST.get('price', ''))
         new_description = request.POST.get('description', '')
         new_update_datetime = datetime.now(timezone.utc)
-        mebels = Mebel.objects.filter(pk=item_index).update(
+        Mebel.objects.filter(pk=item_index).update(
             price=new_price,
             description=new_description,
             update_datetime=new_update_datetime
@@ -65,10 +65,14 @@ def show_all(request):
         25,
         error_messages={"no_results": "Page does not exist"},
     )
-
     page_number = request.GET.get("page", 1)
+    # try:
     page_obj = paginator.get_page(page_number)
 
+    # except EmptyPage:
+    #     page_obj = paginator.get_page(paginator.num_pages)
+
+    # page_obj = paginator.get_elided_page_range(page_number, on_each_side=1, on_ends=2)
     # комментарии ниже это для добавления в ДБ без использования модели
     # connection = parser.connect_to_db()
     # parser.delete_all_data_from_table_db(connection=connection)
@@ -80,7 +84,7 @@ def show_all(request):
         f"app_1/show_data.html",
         {
             'mebels': mebels,
-            'queryset': page_obj
+            'queryset': page_obj,
         }
     )
 
@@ -96,7 +100,7 @@ def show_index(request, item_index):
     except:
         return render(request, 'app_1/show_item.html', {'find_id': False, 'item_index': item_index})
     else:
-        return render(request, 'app_1/show_item.html', {'find_id': True, 'mebels': (mebel,), 'form': form})
+        return render(request, 'app_1/show_item.html', {'find_id': True, 'mebels': (mebel, ), 'form': form})
 
 
 def run_scripts(request):
