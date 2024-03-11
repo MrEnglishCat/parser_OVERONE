@@ -11,8 +11,9 @@
 {%block content%}
     {% if user.is_authenticated and user.is_superuser %}
         <h1><b>Админка.</b> Вся наша мебель</h1>
-        {% if mebels %}
 
+        {% if mebels %}
+                {% include 'app_1/pagination.html' %}
                 <table class="table table-striped">
                     <thead class="table-dark">
                       <th>ID</th>
@@ -65,9 +66,8 @@
                             </tr>
                         {%endfor%}
                     </tbody>
-
                 </table>
-
+                {% include 'app_1/pagination.html' %}
         {% else %}
             <b>К сожалению мебели пока что нету!</b>
         {% endif %}

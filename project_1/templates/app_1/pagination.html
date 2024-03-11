@@ -8,7 +8,7 @@
                     <span class="page-link">Назад</span>
                 </li>
             {% endif %}
-
+            {# Как сделать через get_elided_page_range пробовал но не получилось =( #}
             {% for num_page in queryset.paginator.page_range %}
                 {% if queryset.number == num_page %}
                     <li class="page-item active"><a class="page-link" href="?page={{num_page}}">{{num_page}}</a></li>

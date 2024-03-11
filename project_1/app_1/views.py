@@ -28,8 +28,19 @@ def go_to_mainpage(request):
 def show_admin(request):
     mebels = Mebel.objects.all().order_by('-parse_datetime')
     form = UpdateDataForm()
-
-    return render(request, 'app_1/show_admin.html', {'mebels': mebels, 'forms': form})
+    paginator = Paginator(
+        mebels,
+        25,
+        error_messages={"no_results": "Page does not exist"},
+    )
+    page_number = request.GET.get("page", 1)
+    page_obj = paginator.get_page(page_number)
+    context = {
+        'mebels': mebels,
+        'queryset': page_obj,
+        'forms':form
+    }
+    return render(request, 'app_1/show_admin.html', context=context)
 
 
 def update_item(request, item_index):
@@ -66,12 +77,11 @@ def show_all(request):
         error_messages={"no_results": "Page does not exist"},
     )
     page_number = request.GET.get("page", 1)
-    # try:
     page_obj = paginator.get_page(page_number)
-
-    # except EmptyPage:
-    #     page_obj = paginator.get_page(paginator.num_pages)
-
+    context = {
+        'mebels': mebels,
+        'queryset':page_obj
+    }
     # page_obj = paginator.get_elided_page_range(page_number, on_each_side=1, on_ends=2)
     # комментарии ниже это для добавления в ДБ без использования модели
     # connection = parser.connect_to_db()
@@ -82,10 +92,7 @@ def show_all(request):
     return render(
         request,
         f"app_1/show_data.html",
-        {
-            'mebels': mebels,
-            'queryset': page_obj,
-        }
+        context=context
     )
 
 
