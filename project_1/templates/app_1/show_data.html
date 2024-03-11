@@ -9,7 +9,7 @@
 {%endblock menu%}
 
 {%block content%}
-        {% if mebels %}
+        {% if queryset %}
             <h1>Вся наша мебель</h1>
             {% include 'app_1/pagination.html' %}
             <table class="table table-striped">

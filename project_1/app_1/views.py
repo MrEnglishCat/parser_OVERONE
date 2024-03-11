@@ -26,20 +26,25 @@ def go_to_mainpage(request):
 
 
 def show_admin(request):
-    mebels = Mebel.objects.all().order_by('-parse_datetime')
-    form = UpdateDataForm()
-    paginator = Paginator(
-        mebels,
-        25,
-        error_messages={"no_results": "Page does not exist"},
-    )
-    page_number = request.GET.get("page", 1)
-    page_obj = paginator.get_page(page_number)
-    context = {
-        'mebels': mebels,
-        'queryset': page_obj,
-        'forms':form
-    }
+
+    if request.method == "GET":
+        mebels = Mebel.objects.filter().order_by('-update_datetime')
+        form = UpdateDataForm()
+        paginator = Paginator(
+            mebels,
+            per_page=10,
+            error_messages={"no_results": "Page does not exist"},
+        )
+        page_number = request.GET.get("page", 1)
+        page_obj = paginator.get_page(page_number)
+        context = {
+            # 'mebels': mebels,
+            'queryset': page_obj,
+            'forms': form
+        }
+    elif request.method == "POST":
+        pass
+
     return render(request, 'app_1/show_admin.html', context=context)
 
 
@@ -79,7 +84,7 @@ def show_all(request):
     page_number = request.GET.get("page", 1)
     page_obj = paginator.get_page(page_number)
     context = {
-        'mebels': mebels,
+        # 'mebels': mebels,
         'queryset':page_obj
     }
     # page_obj = paginator.get_elided_page_range(page_number, on_each_side=1, on_ends=2)

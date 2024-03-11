@@ -9,11 +9,12 @@
 {%endblock menu%}
 
 {%block content%}
+
     {% if user.is_authenticated and user.is_superuser %}
         <h1><b>Админка.</b> Вся наша мебель</h1>
 
-        {% if mebels %}
-                {% include 'app_1/pagination.html' %}
+        {% include 'app_1/pagination.html' %}
+        {% if queryset %}
                 <table class="table table-striped">
                     <thead class="table-dark">
                       <th>ID</th>
@@ -26,7 +27,7 @@
                       <th>DELETE</th>
                     </thead>
                     <tbody>
-                        {% for item in mebels %}
+                        {% for item in queryset %}
                             <tr>
                                 <td class="align-middle"><b>{{item.id}}</b></td>
                                 <td class="align-middle"><a href={{item.link}}>Прямая ссылка</a></td>
