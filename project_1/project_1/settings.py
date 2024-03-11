@@ -139,7 +139,7 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-LOGIN_REDIRECT_URL = 'admin_page'
+LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'logout'
 
 REST_FRAMEWORK = {
