@@ -7,12 +7,16 @@ from django.http import HttpResponse
 from .models import Mebel
 from .parser.parsing_kufar import Parser_postgresql
 from .forms import UpdateDataForm
+from .serializers import GetAllDataSerializer
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from django.contrib.auth import logout as lg_out
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
 
 parsing = Parser_postgresql()
 
@@ -26,7 +30,6 @@ def go_to_mainpage(request):
 
 
 def show_admin(request):
-
     if request.method == "GET":
         mebels = Mebel.objects.filter().order_by('-update_datetime')
         form = UpdateDataForm()
@@ -85,7 +88,7 @@ def show_all(request):
     page_obj = paginator.get_page(page_number)
     context = {
         # 'mebels': mebels,
-        'queryset':page_obj
+        'queryset': page_obj
     }
     # page_obj = paginator.get_elided_page_range(page_number, on_each_side=1, on_ends=2)
     # комментарии ниже это для добавления в ДБ без использования модели
@@ -112,7 +115,7 @@ def show_index(request, item_index):
     except:
         return render(request, 'app_1/show_item.html', {'find_id': False, 'item_index': item_index})
     else:
-        return render(request, 'app_1/show_item.html', {'find_id': True, 'mebels': (mebel, ), 'form': form})
+        return render(request, 'app_1/show_item.html', {'find_id': True, 'mebels': (mebel,), 'form': form})
 
 
 def run_scripts(request):
@@ -186,3 +189,14 @@ class SignUp(CreateView):
 #     form_class = UserCreationForm
 #     success_url = reverse_lazy('logout')
 #     template_name = 'registration/logout.html'
+
+
+class APIGetAllData(APIView):
+    def get(self, request, limit=None):
+        if limit is None:
+            queryset  = Mebel.objects.all()
+        else:
+            queryset  = Mebel.objects.all()[:limit]
+        serializer_for_reading = GetAllDataSerializer(instance=queryset , many=True)
+
+        return Response(serializer_for_reading.data)
