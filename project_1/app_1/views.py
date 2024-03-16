@@ -1,6 +1,4 @@
-import os
 from datetime import datetime, timezone
-from pprint import pprint
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
@@ -8,7 +6,7 @@ from .models import Mebel
 from .parser.parsing_kufar import Parser_postgresql
 from .forms import UpdateDataForm
 from .serializers import GetAllDataSerializer
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import Paginator
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from django.contrib.auth import logout as lg_out
@@ -192,11 +190,13 @@ class SignUp(CreateView):
 
 
 class APIGetAllData(APIView):
-    def get(self, request, start=None, end=None):
-        if end is None and start is None:
+    def get(self, request, start:int=None, end:int=None):
+        start = start if isinstance(start, int) else 0
+        end = end if isinstance(end, int) else 0
+        if not end and not start:
             # print('start is NONE and end is NONE', 'START:', start, 'END:', end)
             queryset = Mebel.objects.all()
-        elif end and start is None:
+        elif end and not start:
             # print('start is NONE and end', 'START:', start, 'END:', end)
             queryset = Mebel.objects.all()[:end]
         else:
@@ -209,7 +209,7 @@ class APIGetAllData(APIView):
 
 class APIGetAllDataSorted(APIView):
 
-    def get(self, request, filter=None):
+    def get(self, request, filter:str=None):
         if filter is None:
             queryset = Mebel.objects.all()
         elif isinstance(filter, str):
@@ -224,25 +224,21 @@ class APIGetAllDataSorted(APIView):
 
 
 class APIGetSliceDataSorted(APIView):
-    def get(self, request, filter=None, start=None, end=None):
+    def get(self, request, filter:str=None, start:int=None, end:int=None):
+        start = start if isinstance(start, int) else 0
+        end = end if isinstance(end, int) else 0
         if isinstance(filter, str):
-            print('FILTER')
             if hasattr(Mebel, filter[1:] if filter.startswith('-') else filter
                        ):
                 if end is None and start is None:
-                    print('NONE')
                     queryset = Mebel.objects.all().order_by(filter)
                 elif end and start is None:
-                    print('END')
                     queryset = Mebel.objects.all().order_by(filter)[:end]
                 elif end and start:
-                    print('START_END')
                     queryset = Mebel.objects.all().order_by(filter)[start:end]
 
         else:
             queryset = []
-
-
 
         serialyzer_for_reading = GetAllDataSerializer(instance=queryset, many=True)
 

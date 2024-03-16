@@ -149,5 +149,3 @@ LOGOUT_REDIRECT_URL = 'logout'
 #         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
 #     ]
 # }
-
-

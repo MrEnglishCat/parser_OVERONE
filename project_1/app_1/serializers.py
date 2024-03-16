@@ -1,9 +1,8 @@
-import datetime
 import time
-from datetime import timezone, datetime, timedelta
-
-from django.utils.timezone import timezone, localtime, template_localtime
+from datetime import datetime
+from django.utils.timezone import  tzinfo
 from rest_framework import serializers
+
 
 
 class GetAllDataSerializer(serializers.Serializer):
@@ -19,5 +18,5 @@ class GetAllDataSerializer(serializers.Serializer):
         min_value=0
     )
     description = serializers.CharField()
-    update_datetime = serializers.DateTimeField(read_only=True, format='%Y-%d-%m %H:%M:%S:%f %z')
-    parse_datetime = serializers.DateTimeField(read_only=True, format=f'%d-%m-%Y %H:%M:%S:%f {get_offset_tz} {get_name_timezone}')
+    update_datetime = serializers.DateTimeField(read_only=True, format=f'%Y-%m-%d %H:%M:%S {get_offset_tz}UTC [{get_name_timezone}]')
+    parse_datetime = serializers.DateTimeField(read_only=True, format=f'%Y-%m-%d %H:%M:%S {get_offset_tz}UTC [{get_name_timezone}]', input_formats=["%Y-%m-%dT%H:%M:%SZ", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%d"])
