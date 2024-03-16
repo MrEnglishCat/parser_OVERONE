@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from .models import Mebel
 from .parser.parsing_kufar import Parser_postgresql
 from .forms import UpdateDataForm
-from .serializers import GetAllDataSerializer
+from .serializers import *
 from django.core.paginator import Paginator
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
@@ -189,7 +189,7 @@ class SignUp(CreateView):
 #     template_name = 'registration/logout.html'
 
 
-class APIGetAllData(APIView):
+class GetAllDataAPIView(APIView):
     def get(self, request, start: int = None, end: int = None):
         start = start if isinstance(start, int) else 0
         end = end if isinstance(end, int) else 0
@@ -209,15 +209,15 @@ class APIGetAllData(APIView):
         return Response(serializer_for_reading.data)
 
 
-class APIGetAllDataSorted(APIView):
+class GetAllDataSortedAPIView(APIView):
 
-    def get(self, request, filter: str = None):
-        if filter is None:
+    def get(self, request, order_sorted: str = None):
+        if order_sorted is None:
             queryset = Mebel.objects.all()
-        elif isinstance(filter, str):
-            if hasattr(Mebel, filter[1:] if filter.startswith('-') else filter
+        elif isinstance(order_sorted, str):
+            if hasattr(Mebel, order_sorted[1:] if order_sorted.startswith('-') else order_sorted
                        ):
-                queryset = Mebel.objects.all().order_by(filter)
+                queryset = Mebel.objects.all().order_by(order_sorted)
             else:
                 queryset = []
         serializer_for_reading = GetAllDataSerializer(instance=queryset, many=True)
@@ -225,19 +225,19 @@ class APIGetAllDataSorted(APIView):
         return Response(serializer_for_reading.data)
 
 
-class APIGetSliceDataSorted(APIView):
-    def get(self, request, filter: str = None, start: int = None, end: int = None):
+class GetDataSortedSliceAPIView(APIView):
+    def get(self, request, order_sorted: str = None, start: int = None, end: int = None):
         start = start if isinstance(start, int) else 0
         end = end if isinstance(end, int) else 0
-        if isinstance(filter, str):
-            if hasattr(Mebel, filter[1:] if filter.startswith('-') else filter
+        if isinstance(order_sorted, str):
+            if hasattr(Mebel, order_sorted[1:] if order_sorted.startswith('-') else order_sorted
                        ):
                 if end is None and start is None:
-                    queryset = Mebel.objects.all().order_by(filter)
+                    queryset = Mebel.objects.all().order_by(order_sorted)
                 elif end and start is None:
-                    queryset = Mebel.objects.all().order_by(filter)[:end]
+                    queryset = Mebel.objects.all().order_by(order_sorted)[:end]
                 elif end and start:
-                    queryset = Mebel.objects.all().order_by(filter)[start:end]
+                    queryset = Mebel.objects.all().order_by(order_sorted)[start:end]
 
         else:
             queryset = []
@@ -245,3 +245,15 @@ class APIGetSliceDataSorted(APIView):
         serialyzer_for_reading = GetAllDataSerializer(instance=queryset, many=True)
 
         return Response(serialyzer_for_reading.data)
+
+
+class CreateOneUnitDataAPIView(APIView):
+
+    def post(self, request):
+        serialyzer_for_create = CreateOneUnitSerializer(
+            data=request.data, many=True
+        )
+        if serialyzer_for_create.is_valid():
+
+            serialyzer_for_create.create(serialyzer_for_create.validated_data)
+        return Response(serialyzer_for_create.errors)

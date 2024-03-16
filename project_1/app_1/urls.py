@@ -17,12 +17,13 @@ urlpatterns = [
     path('settings', views.user_settings, name ='user_settings'),
     path('registration', views.SignUp.as_view(), name='registration'),
     ##############      API ########################
-    path('api/get_all_data', views.APIGetAllData.as_view()),
-    path('api/filter/get_all_data/<str:filter>', views.APIGetAllDataSorted.as_view()),
-    path('api/filter/slice/<str:filter>/<int:end>', views.APIGetSliceDataSorted.as_view()),
-    path('api/filter/slice/<str:filter>/<int:start>/<int:end>', views.APIGetSliceDataSorted.as_view()),
-    path('api/slice/get_data/<int:end>', views.APIGetAllData.as_view()),
-    path('api/slice/get_data/<int:start>/<int:end>', views.APIGetAllData.as_view()),
+    path('api/create_data', views.CreateOneUnitDataAPIView.as_view()),
+    path('api/get_all_data', views.GetAllDataAPIView.as_view()),
+    path('api/filter/get_all_data/<str:order_sorted>', views.GetAllDataSortedAPIView.as_view()),
+    path('api/filter/slice/<str:order_sorted>/<int:end>', views.GetDataSortedSliceAPIView.as_view()),
+    path('api/filter/slice/<str:order_sorted>/<int:start>/<int:end>', views.GetDataSortedSliceAPIView.as_view()),
+    path('api/slice/get_data/<int:end>', views.GetAllDataAPIView.as_view()),
+    path('api/slice/get_data/<int:start>/<int:end>', views.GetAllDataAPIView.as_view()),
 ##############      /API ########################
     path('', views.go_to_mainpage),
     re_path(r'.*', views.page_not_found_app_1)
