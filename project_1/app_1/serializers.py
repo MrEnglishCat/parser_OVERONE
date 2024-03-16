@@ -10,7 +10,6 @@ class GetAllDataSerializer(serializers.Serializer):
     # не получилось получить offset current timezone =(
     get_name_timezone = time.localtime().tm_zone
     get_offset_tz = datetime.now().astimezone().strftime("%z")
-
     link = serializers.CharField()
     price = serializers.DecimalField(
         max_digits=10,
