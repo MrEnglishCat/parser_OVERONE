@@ -190,7 +190,7 @@ class SignUp(CreateView):
 
 
 class APIGetAllData(APIView):
-    def get(self, request, start:int=None, end:int=None):
+    def get(self, request, start: int = None, end: int = None):
         start = start if isinstance(start, int) else 0
         end = end if isinstance(end, int) else 0
         if not end and not start:
@@ -202,14 +202,16 @@ class APIGetAllData(APIView):
         else:
             # print('start and end', 'START:', start, 'END:', end)
             queryset = Mebel.objects.all()[start:end]
-        serializer_for_reading = GetAllDataSerializer(instance=queryset, many=True)
+        serializer_for_reading = GetAllDataSerializer(
+            instance=queryset, many=True
+        )
 
         return Response(serializer_for_reading.data)
 
 
 class APIGetAllDataSorted(APIView):
 
-    def get(self, request, filter:str=None):
+    def get(self, request, filter: str = None):
         if filter is None:
             queryset = Mebel.objects.all()
         elif isinstance(filter, str):
@@ -224,7 +226,7 @@ class APIGetAllDataSorted(APIView):
 
 
 class APIGetSliceDataSorted(APIView):
-    def get(self, request, filter:str=None, start:int=None, end:int=None):
+    def get(self, request, filter: str = None, start: int = None, end: int = None):
         start = start if isinstance(start, int) else 0
         end = end if isinstance(end, int) else 0
         if isinstance(filter, str):
