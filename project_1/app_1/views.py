@@ -17,7 +17,6 @@ from django.urls import reverse_lazy
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-
 parsing = Parser_postgresql()
 
 
@@ -185,6 +184,7 @@ class SignUp(CreateView):
     success_url = reverse_lazy('login')
     template_name = 'registration/registration.html'
 
+
 # class Logout(CreateView):
 #     form_class = UserCreationForm
 #     success_url = reverse_lazy('logout')
@@ -192,11 +192,58 @@ class SignUp(CreateView):
 
 
 class APIGetAllData(APIView):
-    def get(self, request, limit=None):
-        if limit is None:
-            queryset  = Mebel.objects.all()
+    def get(self, request, start=None, end=None):
+        if end is None and start is None:
+            # print('start is NONE and end is NONE', 'START:', start, 'END:', end)
+            queryset = Mebel.objects.all()
+        elif end and start is None:
+            # print('start is NONE and end', 'START:', start, 'END:', end)
+            queryset = Mebel.objects.all()[:end]
         else:
-            queryset  = Mebel.objects.all()[:limit]
-        serializer_for_reading = GetAllDataSerializer(instance=queryset , many=True)
+            # print('start and end', 'START:', start, 'END:', end)
+            queryset = Mebel.objects.all()[start:end]
+        serializer_for_reading = GetAllDataSerializer(instance=queryset, many=True)
 
         return Response(serializer_for_reading.data)
+
+
+class APIGetAllDataSorted(APIView):
+
+    def get(self, request, filter=None):
+        if filter is None:
+            queryset = Mebel.objects.all()
+        elif isinstance(filter, str):
+            if hasattr(Mebel, filter[1:] if filter.startswith('-') else filter
+                       ):
+                queryset = Mebel.objects.all().order_by(filter)
+            else:
+                queryset = []
+        serializer_for_reading = GetAllDataSerializer(instance=queryset, many=True)
+
+        return Response(serializer_for_reading.data)
+
+
+class APIGetSliceDataSorted(APIView):
+    def get(self, request, filter=None, start=None, end=None):
+        if isinstance(filter, str):
+            print('FILTER')
+            if hasattr(Mebel, filter[1:] if filter.startswith('-') else filter
+                       ):
+                if end is None and start is None:
+                    print('NONE')
+                    queryset = Mebel.objects.all().order_by(filter)
+                elif end and start is None:
+                    print('END')
+                    queryset = Mebel.objects.all().order_by(filter)[:end]
+                elif end and start:
+                    print('START_END')
+                    queryset = Mebel.objects.all().order_by(filter)[start:end]
+
+        else:
+            queryset = []
+
+
+
+        serialyzer_for_reading = GetAllDataSerializer(instance=queryset, many=True)
+
+        return Response(serialyzer_for_reading.data)
