@@ -129,8 +129,7 @@ class DataClient(ABC):
     def insert_to_db(self, connection):
         if connection:
             cursor = connection.cursor()
-            pattern_date_time_db = '%d-%m-%Y %H:%M %z'
-            dt = datetime.now(timezone.utc)
+            dt = datetime.now(timezone.utc).astimezone()
             for item in self.data:
                 link, price, description = item.values()
                 # не придумал пока что как исделать в одну строку VALUES (), (), ()
