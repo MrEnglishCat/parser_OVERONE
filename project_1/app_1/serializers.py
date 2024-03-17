@@ -6,6 +6,9 @@ from .models import Mebel
 
 
 class GetAllDataTemplateSerializer(serializers.ModelSerializer):
+    '''
+    Используется в классе унаследованном от viewsets.ModelViewSet
+    '''
     class Meta:
         model = Mebel
         fields = ('link', 'price', 'description')
@@ -25,8 +28,8 @@ class GetAllDataSerializer(serializers.Serializer):
         min_value=0
     )
     description = serializers.CharField(read_only=True)
-    update_datetime = serializers.DateTimeField(read_only=True, format=f'%Y-%m-%d %H:%M:%S {get_offset_tz}UTC [{get_name_timezone}]')
-    parse_datetime = serializers.DateTimeField(read_only=True, format=f'%Y-%m-%d %H:%M:%S {get_offset_tz}UTC [{get_name_timezone}]', input_formats=["%Y-%m-%dT%H:%M:%SZ", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%d"])
+    update_datetime = serializers.DateTimeField(read_only=True, format=f'%Y-%m-%d %H:%M:%S {get_offset_tz} UTC [{get_name_timezone}]')
+    parse_datetime = serializers.DateTimeField(read_only=True, format=f'%Y-%m-%d %H:%M:%S {get_offset_tz} UTC [{get_name_timezone}]', input_formats=["%Y-%m-%dT%H:%M:%SZ", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%d"])
 
 
 class CreateOneUnitSerializer(serializers.ModelSerializer):

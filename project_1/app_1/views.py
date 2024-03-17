@@ -1,8 +1,7 @@
-from datetime import datetime, timezone
+from datetime import timezone
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Mebel
 from .parser.parsing_kufar import Parser_postgresql
 from .forms import UpdateDataForm
 from .serializers import *
@@ -14,16 +13,12 @@ from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 
 from rest_framework import generics, viewsets
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-
-
-
 parsing = Parser_postgresql()
-
 
 API_DICT = {
     'API_VIEWERS': {
@@ -232,9 +227,13 @@ class SignUp(CreateView):
 #     template_name = 'registration/logout.html'
 
 
-class ConstructorAPIView(viewsets.ModelViewSet):
+class ConstructorAPIViewSet(viewsets.ModelViewSet):
+    '''
+    Шаблонный APIView - используется в routers.register
+    '''
     queryset = Mebel.objects.all()
     serializer_class = GetAllDataTemplateSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly, )
 
 class GetAllDataAPIView(APIView):
     def get(self, request, start: int = None, end: int = None):
@@ -254,9 +253,6 @@ class GetAllDataAPIView(APIView):
         )
 
         return Response(serializer_for_reading.data)
-
-
-
 
 
 class GetAllDataSortedAPIView(APIView):
@@ -300,15 +296,16 @@ class GetDataSortedSliceAPIView(APIView):
 class CreateOneUnitDataAPIView(generics.CreateAPIView):
     queryset = Mebel.objects.all()
     serializer_class = CreateOneUnitSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = (IsAdminUser,)
 
 
 class UpdateOneUnitDataAPIView(generics.UpdateAPIView):
     queryset = Mebel.objects.all()
     serializer_class = UpdateOneUnitSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = (IsAdminUser,)
+
 
 class DeleteOneUnitDataAPIView(generics.DestroyAPIView):
     queryset = Mebel.objects.all()
     serializer_class = DeleteOneUnitSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = (IsAdminUser,)
