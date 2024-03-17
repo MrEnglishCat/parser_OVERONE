@@ -48,6 +48,9 @@ class UpdateOneUnitSerializer(serializers.ModelSerializer):
         model = Mebel
         fields = ('link', 'price', 'description')
 
+    def patch(self):
+        pass
+
 class DeleteOneUnitSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mebel

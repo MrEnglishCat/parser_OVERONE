@@ -289,13 +289,15 @@ class GetDataSortedSliceAPIView(APIView):
 class CreateOneUnitDataAPIView(generics.CreateAPIView):
     queryset = Mebel.objects.all()
     serializer_class = CreateOneUnitSerializer
+    permission_classes = [IsAdminUser]
 
 
 class UpdateOneUnitDataAPIView(generics.UpdateAPIView):
     queryset = Mebel.objects.all()
     serializer_class = UpdateOneUnitSerializer
-
+    permission_classes = [IsAdminUser]
 
 class DeleteOneUnitDataAPIView(generics.DestroyAPIView):
     queryset = Mebel.objects.all()
     serializer_class = DeleteOneUnitSerializer
+    permission_classes = [IsAdminUser]
