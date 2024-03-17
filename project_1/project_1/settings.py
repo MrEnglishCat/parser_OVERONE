@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "app_1",
     "debug_toolbar",
     'rest_framework',
+    'rest_framework_swagger',
 ]
 
 MIDDLEWARE = [

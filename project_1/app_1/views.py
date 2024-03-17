@@ -17,9 +17,30 @@ from rest_framework.response import Response
 
 parsing = Parser_postgresql()
 
+API_DICT = {
+    'GET':{
+        r'api/get_all_data': 'Получение всех записей из таблицы "app_1_mebel"',
+        r'api/filter/get_all_data/<str:order_sorted>': 'Получение всех записей из таблицы "app_1_mebel" с указанием параметра сортировки',
+        r'api/filter/slice/<str:order_sorted>/<int:end>': 'Получение всех записей из таблицы "app_1_mebel" с указанием параметра сортировки и среза(до какой записи, не включая указанную запись)',
+        r'api/filter/slice/<str:order_sorted>/<int:start>/<int:end>': 'Получение всех записей из таблицы "app_1_mebel" с указанием параметра сортировки и среза(от какой и до какой записи, не включая указанную запись)',
+        r'api/slice/get_data/<int:end>': 'Получение всех записей из таблицы "app_1_mebel" с указанием среза(до какой записи, не включая указанную запись)',
+        r'api/slice/get_data/<int:start>/<int:end>': 'Получение всех записей из таблицы "app_1_mebel" с указанием среза(от какой и до какой записи, не включая указанную запись)'
+    },
+    'CREATE':{
+        r'api/create_data': 'Добавление записи в БД',
+    },
+    'UPDATE':{
+
+    }
+
+}
+
 
 def app_1_mainpage(request):
-    return render(request, 'app_1/app_1_index.html')
+    context = {
+        "API_DICT":API_DICT
+    }
+    return render(request, 'app_1/app_1_index.html', context=context)
 
 
 def go_to_mainpage(request):
@@ -40,7 +61,8 @@ def show_admin(request):
         context = {
             # 'mebels': mebels,
             'queryset': page_obj,
-            'forms': form
+            'forms': form,
+            'API_DICT':API_DICT
         }
     elif request.method == "POST":
         pass
@@ -85,7 +107,8 @@ def show_all(request):
     page_obj = paginator.get_page(page_number)
     context = {
         # 'mebels': mebels,
-        'queryset': page_obj
+        'queryset': page_obj,
+        'API_DICT':API_DICT
     }
     # page_obj = paginator.get_elided_page_range(page_number, on_each_side=1, on_ends=2)
     # комментарии ниже это для добавления в ДБ без использования модели
@@ -109,17 +132,21 @@ def show_index(request, item_index):
     try:
         mebel = Mebel.objects.get(id=item_index)
         form = UpdateDataForm()
+
     except:
-        return render(request, 'app_1/show_item.html', {'find_id': False, 'item_index': item_index})
+        return render(request, 'app_1/show_item.html', {'find_id': False, 'item_index': item_index,
+            'API_DICT':API_DICT})
     else:
-        return render(request, 'app_1/show_item.html', {'find_id': True, 'mebels': (mebel,), 'form': form})
+        return render(request, 'app_1/show_item.html', {'find_id': True, 'mebels': (mebel,), 'form': form,
+            'API_DICT':API_DICT})
 
 
 def run_scripts(request):
     try:
         parsing.run()
         message = "Данные получены!"
-        return render(request, 'app_1/after_processing.html', {'message': message})
+        return render(request, 'app_1/after_processing.html', {'message': message,
+            'API_DICT':API_DICT})
     except Exception as err:
         return HttpResponse("Произошла ошибка при получении данных!")
 
@@ -129,7 +156,8 @@ def erase_db(request):
         try:
             parsing.erase_db(parsing.connect_to_db())
             message = "Данные очищены!"
-            return render(request, 'app_1/after_processing.html', {'message': message})
+            return render(request, 'app_1/after_processing.html', {'message': message,
+            'API_DICT':API_DICT})
         except:
             return HttpResponse("Произошла ошибка при очищении базы данных!")
     else:
@@ -174,7 +202,8 @@ def user_settings(request):
         )
         # user = User.objects.filter(pk=user_id)
 
-    return render(request, 'app_1/settings.html', {'form': form})
+    return render(request, 'app_1/settings.html', {'form': form,
+            'API_DICT':API_DICT})
 
 
 class SignUp(CreateView):
@@ -254,6 +283,5 @@ class CreateOneUnitDataAPIView(APIView):
             data=request.data, many=True
         )
         if serialyzer_for_create.is_valid():
-
             serialyzer_for_create.create(serialyzer_for_create.validated_data)
         return Response(serialyzer_for_create.errors)

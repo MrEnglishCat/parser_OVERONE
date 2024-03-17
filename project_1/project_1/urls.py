@@ -19,6 +19,7 @@ from django.urls import path, include, re_path
 from django.contrib.auth.models import User
 
 from rest_framework import routers, serializers, viewsets
+from rest_framework_swagger.views import get_swagger_view
 
 
 # Serializers define the API representation.
@@ -38,6 +39,9 @@ class UserViewSet(viewsets.ModelViewSet):
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 
+
+
+
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
@@ -46,7 +50,9 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path("__debug__/", include("debug_toolbar.urls")),
     path('', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path(r'api/swagger/', get_swagger_view(title='Mebel API')),
+
 ]
 
 handler404 = 'app_1.views.page_not_found'

@@ -2,6 +2,7 @@ from django.urls import path, re_path
 from . import views
 
 
+
 urlpatterns = [
     path('items', views.show_all, name='items'),
     path('items_admin', views.show_admin, name='admin_page'),
