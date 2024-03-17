@@ -3,6 +3,7 @@ from datetime import datetime
 from django.utils.timezone import  tzinfo
 from rest_framework import serializers
 from .models import Mebel
+from django.contrib.auth.models import User
 
 
 class GetAllDataTemplateSerializer(serializers.ModelSerializer):
@@ -63,3 +64,5 @@ class DeleteOneUnitSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mebel
         fields = ('id', )
+
+

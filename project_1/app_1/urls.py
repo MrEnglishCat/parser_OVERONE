@@ -7,11 +7,12 @@ from . import views
 ##############  кроме стандартного функционала "mebel/{id}" ничего не реализовано   ########
 ##############  разобрался что можно в роутере добавлять path-объекты в список router.urls  ########
 router = routers.DefaultRouter()
-router.register(r'api/get_item/', views.ConstructorAPIViewSet)
+router.register(r'', views.ConstructorAPIViewSet)
 
 
 
 urlpatterns = [
+
     path('items', views.show_all, name='items'),
     path('items_admin', views.show_admin, name='admin_page'),
     path('items/<int:item_index>', views.show_index, name='show_item'),
@@ -26,10 +27,13 @@ urlpatterns = [
     path('settings', views.user_settings, name ='user_settings'),
     path('registration', views.SignUp.as_view(), name='registration'),
     ##############      API ########################
+    # path('api/user', views.GetUserDataAPIView.as_view()),
+
     path('api/create_item', views.CreateOneUnitDataAPIView.as_view()),
     path('api/update_item/<int:pk>', views.UpdateOneUnitDataAPIView.as_view()),
     path('api/delete_item/<int:pk>', views.DeleteOneUnitDataAPIView.as_view()),
-    path('', include(router.urls)),
+    path('api/get_item/', include(router.urls)),
+    path('api/get_item/<str:pk>', views.GetALLDATAView.as_view()),
     path('api/get_all_data', views.GetAllDataAPIView.as_view()),
     path('api/filter/get_all_data/<str:order_sorted>', views.GetAllDataSortedAPIView.as_view()),
     path('api/filter/slice/<str:order_sorted>/<int:end>', views.GetDataSortedSliceAPIView.as_view()),

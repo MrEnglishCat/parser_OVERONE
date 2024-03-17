@@ -18,6 +18,9 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+from .permissions import CustomPermissionTEST
+
+
 parsing = Parser_postgresql()
 
 API_DICT = {
@@ -233,7 +236,7 @@ class ConstructorAPIViewSet(viewsets.ModelViewSet):
     '''
     queryset = Mebel.objects.all()
     serializer_class = GetAllDataTemplateSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly, )
+    permission_classes = (CustomPermissionTEST, )
 
 class GetAllDataAPIView(APIView):
     def get(self, request, start: int = None, end: int = None):
@@ -272,6 +275,7 @@ class GetAllDataSortedAPIView(APIView):
 
 
 class GetDataSortedSliceAPIView(APIView):
+
     def get(self, request, order_sorted: str = None, start: int = None, end: int = None):
         start = start if isinstance(start, int) else 0
         end = end if isinstance(end, int) else 0
@@ -309,3 +313,9 @@ class DeleteOneUnitDataAPIView(generics.DestroyAPIView):
     queryset = Mebel.objects.all()
     serializer_class = DeleteOneUnitSerializer
     permission_classes = (IsAdminUser,)
+
+
+class GetALLDATAView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Mebel.objects.all()
+    serializer_class = GetAllDataTemplateSerializer
+    permission_classes = (CustomPermissionTEST,)
