@@ -13,7 +13,7 @@ from django.contrib.auth import logout as lg_out
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 
-from rest_framework import generics, viewsets
+from rest_framework import generics, viewsets, filters
 from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
 
 from rest_framework.views import APIView
@@ -240,6 +240,9 @@ class ConstructorAPIViewSet(viewsets.ModelViewSet):
     permission_classes = (CustomPermissionTEST, )
 
 class GetAllDataAPIView(APIView):
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['price', 'link', 'descriptio']
+
     def get(self, request, start: int = None, end: int = None):
         start = start if isinstance(start, int) else 0
         end = end if isinstance(end, int) else 0

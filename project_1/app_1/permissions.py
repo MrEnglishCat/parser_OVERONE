@@ -1,8 +1,10 @@
 from rest_framework import permissions
 from django.contrib.auth.models import User
+
+
 class CustomPermissionTEST(permissions.BasePermission):
 
-    def _get_admin(self)->tuple:
+    def _get_admin(self) -> tuple:
         '''
         я так пока что и не понял почему  этот метод вызывается 6 раз
         '''
