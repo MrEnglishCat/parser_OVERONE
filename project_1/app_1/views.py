@@ -13,13 +13,17 @@ from django.contrib.auth import logout as lg_out
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 
-from rest_framework import generics
+from rest_framework import generics, viewsets
 from rest_framework.permissions import IsAdminUser
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+
+
+
 parsing = Parser_postgresql()
+
 
 API_DICT = {
     'API_VIEWERS': {
@@ -228,6 +232,10 @@ class SignUp(CreateView):
 #     template_name = 'registration/logout.html'
 
 
+class ConstructorAPIView(viewsets.ModelViewSet):
+    queryset = Mebel.objects.all()
+    serializer_class = GetAllDataTemplateSerializer
+
 class GetAllDataAPIView(APIView):
     def get(self, request, start: int = None, end: int = None):
         start = start if isinstance(start, int) else 0
@@ -246,6 +254,9 @@ class GetAllDataAPIView(APIView):
         )
 
         return Response(serializer_for_reading.data)
+
+
+
 
 
 class GetAllDataSortedAPIView(APIView):

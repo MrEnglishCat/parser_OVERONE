@@ -42,7 +42,6 @@ class UserViewSet(viewsets.ModelViewSet):
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 
-
 schema_view = get_schema_view(
    openapi.Info(
       title="Mebel API",

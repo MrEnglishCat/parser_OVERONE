@@ -5,6 +5,11 @@ from rest_framework import serializers
 from .models import Mebel
 
 
+class GetAllDataTemplateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Mebel
+        fields = ('link', 'price', 'description')
+
 class GetAllDataSerializer(serializers.Serializer):
 
     # не получилось получить offset current timezone =(

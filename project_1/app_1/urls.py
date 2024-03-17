@@ -1,7 +1,9 @@
-from django.urls import path, re_path
+from django.urls import path, re_path, include
+from rest_framework import routers
 from . import views
 
-
+router = routers.DefaultRouter()
+router.register(r'mebel', views.ConstructorAPIView)
 
 urlpatterns = [
     path('items', views.show_all, name='items'),
@@ -18,6 +20,7 @@ urlpatterns = [
     path('settings', views.user_settings, name ='user_settings'),
     path('registration', views.SignUp.as_view(), name='registration'),
     ##############      API ########################
+    path('api/', include(router.urls)),
     path('api/create_item', views.CreateOneUnitDataAPIView.as_view()),
     path('api/update_item/<int:pk>', views.UpdateOneUnitDataAPIView.as_view()),
     path('api/delete_item/<int:pk>', views.DeleteOneUnitDataAPIView.as_view()),
