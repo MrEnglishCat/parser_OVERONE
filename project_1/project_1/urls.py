@@ -19,7 +19,10 @@ from django.urls import path, include, re_path
 from django.contrib.auth.models import User
 
 from rest_framework import routers, serializers, viewsets
-from rest_framework_swagger.views import get_swagger_view
+
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
 
 
 # Serializers define the API representation.
@@ -40,6 +43,18 @@ router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 
 
+schema_view = get_schema_view(
+   openapi.Info(
+      title="Mebel API",
+      default_version='v1',
+      description="Позволяет проверять запросы к API Mebel",
+      terms_of_service="https://www.google.com/policies/terms/",
+      contact=openapi.Contact(email="contact@snippets.local"),
+      license=openapi.License(name="BSD License"),
+   ),
+   public=True,
+   permission_classes=(permissions.AllowAny,),
+)
 
 
 # Wire up our API using automatic URL routing.
@@ -51,7 +66,9 @@ urlpatterns = [
     path("__debug__/", include("debug_toolbar.urls")),
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path(r'api/swagger/', get_swagger_view(title='Mebel API')),
+    path('api/swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('api/swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('api/redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 
 ]
 

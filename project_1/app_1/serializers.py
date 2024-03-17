@@ -24,16 +24,24 @@ class GetAllDataSerializer(serializers.Serializer):
     parse_datetime = serializers.DateTimeField(read_only=True, format=f'%Y-%m-%d %H:%M:%S {get_offset_tz}UTC [{get_name_timezone}]', input_formats=["%Y-%m-%dT%H:%M:%SZ", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%d"])
 
 
-class CreateOneUnitSerializer(serializers.Serializer):
-    id = serializers.PrimaryKeyRelatedField(read_only=True)
-    link = serializers.CharField(write_only=True)
-    price = serializers.DecimalField(
-        write_only=True,
-        max_digits=10,
-        decimal_places=4,
-        min_value=0
-    )
-    description = serializers.CharField(write_only=True)
+class CreateOneUnitSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Mebel
+        fields = ('link', 'price', 'description')
+    # id = serializers.PrimaryKeyRelatedField(read_only=True)
+    # link = serializers.CharField(write_only=True)
+    # price = serializers.DecimalField(
+    #     write_only=True,
+    #     max_digits=10,
+    #     decimal_places=4,
+    #     min_value=0
+    # )
+    # description = serializers.CharField(write_only=True)
+    #
+    # def create(self, validated_data):
+    #     return Mebel.objects.create(**validated_data)
 
-    def create(self, validated_data):
-        return Mebel.objects.create(**validated_data)
+class UpdateOneUnitSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Mebel
+        fields = ('link', 'price', 'description')

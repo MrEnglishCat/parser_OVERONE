@@ -12,12 +12,20 @@ from django.contrib.auth.models import User
 from django.contrib.auth import logout as lg_out
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
+
+from rest_framework import generics
+from rest_framework.permissions import IsAdminUser
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
 parsing = Parser_postgresql()
 
 API_DICT = {
+    'API_VIEWERS':{
+        'Swagger': 'http://127.0.0.1:8000/api/swagger/',
+        'DRF': 'http://127.0.0.1:8000/app_1/api/...'
+    },
     'GET':{
         r'api/get_all_data': 'Получение всех записей из таблицы "app_1_mebel"',
         r'api/filter/get_all_data/<str:order_sorted>': 'Получение всех записей из таблицы "app_1_mebel" с указанием параметра сортировки',
@@ -168,7 +176,7 @@ def page_not_found_app_1(request):
     '''
     сделано через re_path() работаеть только по пути '/app_1/' далее можно указать любой адрес
     '''
-    return render(request, 'app_1/page_not_found.html')
+    return render(request, 'app_1/page_not_found.html', {'API_DICT':API_DICT})
 
 
 def page_not_found(request, *args, **kwargs):
@@ -276,12 +284,11 @@ class GetDataSortedSliceAPIView(APIView):
         return Response(serialyzer_for_reading.data)
 
 
-class CreateOneUnitDataAPIView(APIView):
+class CreateOneUnitDataAPIView(generics.CreateAPIView):
+    queryset = Mebel.objects.all()
+    serializer_class = CreateOneUnitSerializer
 
-    def post(self, request):
-        serialyzer_for_create = CreateOneUnitSerializer(
-            data=request.data, many=True
-        )
-        if serialyzer_for_create.is_valid():
-            serialyzer_for_create.create(serialyzer_for_create.validated_data)
-        return Response(serialyzer_for_create.errors)
+
+class UpdateOneUnitDataAPIView(generics.UpdateAPIView):
+    queryset = Mebel.objects.all()
+    serializer_class = CreateOneUnitSerializer
