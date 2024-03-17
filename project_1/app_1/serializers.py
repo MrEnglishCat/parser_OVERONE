@@ -28,6 +28,8 @@ class CreateOneUnitSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mebel
         fields = ('link', 'price', 'description')
+
+    # Строчки ниже если наследование было бы от APIView
     # id = serializers.PrimaryKeyRelatedField(read_only=True)
     # link = serializers.CharField(write_only=True)
     # price = serializers.DecimalField(

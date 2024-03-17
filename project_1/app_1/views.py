@@ -41,7 +41,7 @@ API_DICT = {
         'api/update_data/<int:pk>': 'Полное обновление через запросы PUT/PATCH'
     },
     'DELETE': {
-        'api/delete/<int:pk>': 'Удаление одной записи по ID'
+        'api/delete/<int:pk>': 'Удаление одной записи по IDs'
     }
 }
 
