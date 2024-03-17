@@ -56,11 +56,59 @@
             {% block footer %}
                 <footer>
                     <hr>
-                    <p>Самодельная админка доступна(<b>только для superuser</b>) по адресу: http://127.0.0.1:8000/app_1/items_admin</p>
-                    <p>Доступ к отдельным элементам БД "Мебель". Число "9874" - ID из вашей БД (у <b>Администратора</b> есть возможность редактировать данные отсюда): http://127.0.0.1:8000/app_1/items/9874</p>
-                    <p>Для <b>неавторизованного</b> пользователя доступна только одна ссылка просмотра данных из базы данных</p>
-                    <p>Для <b>Администратора</b> доступны все ссылки портала</p>
-                    <p>Для <b>Авторизованного</b> пользователя  доступны все ссылки портала, <b>кроме</b> редактирования записей БД</p>
+                    <h4>DESCRIPTION APP Links :</h4>
+                    <table  style="width:50%;" class="table table-striped">
+                        <thead align="center">
+                            <th>Link</th>
+                            <th>Description</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>http://127.0.0.1:8000/app_1/items_admin</td>
+                                <td>Самодельная админка доступна(<b>только для superuser</b>) по адресу</td>
+                            </tr>
+                            <tr>
+                                <td>http://127.0.0.1:8000/app_1/items/9874</td>
+                                <td>Доступ к отдельным элементам БД "Мебель". Число "9874" - ID из вашей БД (у <b>Администратора</b> есть возможность редактировать данные отсюда)</td>
+                            </tr>
+                            <tr>
+                                <td>http://127.0.0.1:8000/app_1/items</td>
+                                <td>Для <b>неавторизованного</b> пользователя доступна только одна ссылка просмотра данных из базы данных</td>
+                            </tr>
+                            <tr>
+                                <td>ALL LINKS</td>
+                                <td>Для <b>Администратора</b> доступны все ссылки портала</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>Для <b>Авторизованного</b> пользователя(кроме Администратора)  доступны все ссылки портала, <b>кроме</b> редактирования записей БД</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr>
+                    <h4>API:</h4>
+                    <table  style="width:50%;" class="table table-striped">
+                        <thead align="center">
+                            <th>Link</th>
+                            <th>Description</th>
+                        </thead>
+                        <tbody>
+                            {% for key, value in API_DICT.items %}
+                                <tr align="center">
+                                    <th colspan="2">
+                                        {{key}}
+                                    </th>
+                                </tr>
+                                {% for link, description in value.items %}
+                                    <tr>
+                                        <td>{{link}}</td>
+                                        <td>{{description}}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <hr>
                 </footer>
             {% endblock footer %}
 
