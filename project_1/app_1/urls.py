@@ -29,6 +29,7 @@ urlpatterns = [
     ##############      API ########################
     # path('api/user', views.GetUserDataAPIView.as_view()),
 
+    path('api/GET_TEST/<int:pk>', views.GetALLDATAView.as_view()),
     path('api/create_item', views.CreateOneUnitDataAPIView.as_view()),
     path('api/update_item/<int:pk>', views.UpdateOneUnitDataAPIView.as_view()),
     path('api/delete_item/<int:pk>', views.DeleteOneUnitDataAPIView.as_view()),

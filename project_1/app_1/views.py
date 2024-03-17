@@ -1,5 +1,6 @@
 from datetime import timezone
 
+import django_filters.rest_framework
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .parser.parsing_kufar import Parser_postgresql
@@ -319,3 +320,4 @@ class GetALLDATAView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Mebel.objects.all()
     serializer_class = GetAllDataTemplateSerializer
     permission_classes = (CustomPermissionTEST,)
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
