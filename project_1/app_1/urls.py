@@ -2,6 +2,10 @@ from django.urls import path, re_path, include
 from rest_framework import routers
 from . import views
 
+
+##############  Добавлен только для того что бы посмотреть какр он работает         ########
+##############  кроме стандартного функционала "mebel/{id}" ничего не реализовано   ########
+##############  разобрался что можно в роутере добавлять path-объекты в список router.urls  ########
 router = routers.DefaultRouter()
 router.register(r'mebel', views.ConstructorAPIView)
 
@@ -28,8 +32,8 @@ urlpatterns = [
     path('api/filter/get_all_data/<str:order_sorted>', views.GetAllDataSortedAPIView.as_view()),
     path('api/filter/slice/<str:order_sorted>/<int:end>', views.GetDataSortedSliceAPIView.as_view()),
     path('api/filter/slice/<str:order_sorted>/<int:start>/<int:end>', views.GetDataSortedSliceAPIView.as_view()),
-    path('api/slice/get_data/<int:end>', views.GetAllDataAPIView.as_view()),
-    path('api/slice/get_data/<int:start>/<int:end>', views.GetAllDataAPIView.as_view()),
+    path('api/slice/get_item/<int:end>', views.GetAllDataAPIView.as_view()),
+    path('api/slice/get_item/<int:start>/<int:end>', views.GetAllDataAPIView.as_view()),
 ##############      /API ########################
     path('', views.go_to_mainpage),
     re_path(r'.*', views.page_not_found_app_1)
