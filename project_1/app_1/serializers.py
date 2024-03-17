@@ -45,3 +45,8 @@ class UpdateOneUnitSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mebel
         fields = ('link', 'price', 'description')
+
+class DeleteOneUnitSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Mebel
+        fields = ('id', )

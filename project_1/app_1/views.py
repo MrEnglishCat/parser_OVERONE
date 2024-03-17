@@ -22,11 +22,11 @@ from rest_framework.response import Response
 parsing = Parser_postgresql()
 
 API_DICT = {
-    'API_VIEWERS':{
+    'API_VIEWERS': {
         'Swagger': 'http://127.0.0.1:8000/api/swagger/',
         'DRF': 'http://127.0.0.1:8000/app_1/api/...'
     },
-    'GET':{
+    'GET': {
         r'api/get_all_data': 'Получение всех записей из таблицы "app_1_mebel"',
         r'api/filter/get_all_data/<str:order_sorted>': 'Получение всех записей из таблицы "app_1_mebel" с указанием параметра сортировки',
         r'api/filter/slice/<str:order_sorted>/<int:end>': 'Получение всех записей из таблицы "app_1_mebel" с указанием параметра сортировки и среза(до какой записи, не включая указанную запись)',
@@ -34,19 +34,21 @@ API_DICT = {
         r'api/slice/get_data/<int:end>': 'Получение всех записей из таблицы "app_1_mebel" с указанием среза(до какой записи, не включая указанную запись)',
         r'api/slice/get_data/<int:start>/<int:end>': 'Получение всех записей из таблицы "app_1_mebel" с указанием среза(от какой и до какой записи, не включая указанную запись)'
     },
-    'CREATE':{
+    'CREATE': {
         r'api/create_data': 'Добавление записи в БД',
     },
-    'UPDATE':{
-
+    'UPDATE': {
+        'api/update_data/<int:pk>': 'Полное обновление через запросы PUT/PATCH'
+    },
+    'DELETE': {
+        'api/delete/<int:pk>': 'Удаление одной записи по ID'
     }
-
 }
 
 
 def app_1_mainpage(request):
     context = {
-        "API_DICT":API_DICT
+        "API_DICT": API_DICT
     }
     return render(request, 'app_1/app_1_index.html', context=context)
 
@@ -70,7 +72,7 @@ def show_admin(request):
             # 'mebels': mebels,
             'queryset': page_obj,
             'forms': form,
-            'API_DICT':API_DICT
+            'API_DICT': API_DICT
         }
     elif request.method == "POST":
         pass
@@ -116,7 +118,7 @@ def show_all(request):
     context = {
         # 'mebels': mebels,
         'queryset': page_obj,
-        'API_DICT':API_DICT
+        'API_DICT': API_DICT
     }
     # page_obj = paginator.get_elided_page_range(page_number, on_each_side=1, on_ends=2)
     # комментарии ниже это для добавления в ДБ без использования модели
@@ -143,10 +145,10 @@ def show_index(request, item_index):
 
     except:
         return render(request, 'app_1/show_item.html', {'find_id': False, 'item_index': item_index,
-            'API_DICT':API_DICT})
+                                                        'API_DICT': API_DICT})
     else:
         return render(request, 'app_1/show_item.html', {'find_id': True, 'mebels': (mebel,), 'form': form,
-            'API_DICT':API_DICT})
+                                                        'API_DICT': API_DICT})
 
 
 def run_scripts(request):
@@ -154,7 +156,7 @@ def run_scripts(request):
         parsing.run()
         message = "Данные получены!"
         return render(request, 'app_1/after_processing.html', {'message': message,
-            'API_DICT':API_DICT})
+                                                               'API_DICT': API_DICT})
     except Exception as err:
         return HttpResponse("Произошла ошибка при получении данных!")
 
@@ -165,7 +167,7 @@ def erase_db(request):
             parsing.erase_db(parsing.connect_to_db())
             message = "Данные очищены!"
             return render(request, 'app_1/after_processing.html', {'message': message,
-            'API_DICT':API_DICT})
+                                                                   'API_DICT': API_DICT})
         except:
             return HttpResponse("Произошла ошибка при очищении базы данных!")
     else:
@@ -176,7 +178,7 @@ def page_not_found_app_1(request):
     '''
     сделано через re_path() работаеть только по пути '/app_1/' далее можно указать любой адрес
     '''
-    return render(request, 'app_1/page_not_found.html', {'API_DICT':API_DICT})
+    return render(request, 'app_1/page_not_found.html', {'API_DICT': API_DICT})
 
 
 def page_not_found(request, *args, **kwargs):
@@ -211,7 +213,7 @@ def user_settings(request):
         # user = User.objects.filter(pk=user_id)
 
     return render(request, 'app_1/settings.html', {'form': form,
-            'API_DICT':API_DICT})
+                                                   'API_DICT': API_DICT})
 
 
 class SignUp(CreateView):
@@ -291,4 +293,9 @@ class CreateOneUnitDataAPIView(generics.CreateAPIView):
 
 class UpdateOneUnitDataAPIView(generics.UpdateAPIView):
     queryset = Mebel.objects.all()
-    serializer_class = CreateOneUnitSerializer
+    serializer_class = UpdateOneUnitSerializer
+
+
+class DeleteOneUnitDataAPIView(generics.DestroyAPIView):
+    queryset = Mebel.objects.all()
+    serializer_class = DeleteOneUnitSerializer
